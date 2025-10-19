@@ -1,11 +1,12 @@
 /*
 Copyright © 2025 NAME HERE <EMAIL ADDRESS>
-
 */
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 )
@@ -13,15 +14,21 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Display all the todo tasks",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("list called")
+		file, error := os.Open("todo.txt")
+		if error != nil {
+			fmt.Println("error listing the tasks", error)
+			return
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+		i := 1
+		for scanner.Scan() {
+			fmt.Printf("%d. %s", i, scanner.Text())
+			i++
+		}
 	},
 }
 
