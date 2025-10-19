@@ -26,7 +26,7 @@ var listCmd = &cobra.Command{
 		scanner := bufio.NewScanner(file)
 		i := 1
 		for scanner.Scan() {
-			fmt.Printf("%d. %s", i, scanner.Text())
+			fmt.Printf("%d. %s \n", i, scanner.Text())
 			i++
 		}
 	},
